@@ -58,3 +58,7 @@ There are two ways we can deploy argo, using jenkins to deploy to the external c
 
 This one will use the cluster configuration
 `k apply -f argo-cd/app.yaml`
+
+
+It does not update cluster right away, it polls the repository every three minutes and updates the cluster.
+If you want to right away update it, you can use refresh or hard refresh inside or configure argocd with github webhooks.
