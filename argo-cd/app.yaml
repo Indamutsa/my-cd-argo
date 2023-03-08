@@ -5,16 +5,21 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   source:
-    repoURL: https://github.com/Indamutsa/argo-cd.git
+    repoURL: https://github.com/Indamutsa/my-cd-argo.git
     targetRevision: HEAD
     path: example-app
     directory:
       recurse: true
-  destination:
+  destination: 
     server: https://kubernetes.default.svc
     namespace: example-app
+
   syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
     automated:
-      prune: false
-      selfHeal: false
+      selfHeal: true # to overwrite direct applies in the server when they fail
+      prune: true # To make sure argo cd delete stuff in the cluster as well when deleted on the repository

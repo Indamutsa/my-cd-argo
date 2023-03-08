@@ -17,17 +17,20 @@ Run this locally
 `kubectl apply -n argocd -f argo-cd/install.yaml`
 
 Port forward it because it is more secure.
-`kubectl port-forward svc/argocd-server -n argocd 8080:443`
+access ArgoCD UI
+`kubectl get svc -n argocd`
+`kubectl port-forward svc/argocd-server 8080:443 -n argocd`
+
 
 Get the password from the secret
 `k get secret -n argocd argocd-initial-admin-secret --template={{.data.password}} | base64 -d`
 
+or 
+login with admin user and below token (as in documentation):
+`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode && echo`
 
+The username is `admin`
 
-There are two ways we can deploy argo, using jenkins to deploy to the external cluster with Jenkins or internally in the cluster.
-
-This one will use the cluster configuration
-`k apply -f argo-cd/app.yaml -n argocd`
 
 
 Firstly, I like to do most of my work in containers so everything is reproducable <br/>
@@ -46,12 +49,12 @@ apt update && apt upgrade -y && apt install curl -y && apt install wget -y
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 mv ./kubectl /usr/local/bin/kubectl
-
-## Install argocd
-wget https://github.com/argoproj/argo-cd/releases/download/v2.2.5/argocd-linux-amd64 -O argocd
-chmod +x argocd
-mv argocd /usr/local/bin/
 ```
 
 
 
+
+There are two ways we can deploy argo, using jenkins to deploy to the external cluster with Jenkins or internally in the cluster.
+
+This one will use the cluster configuration
+`k apply -f argo-cd/app.yaml`
