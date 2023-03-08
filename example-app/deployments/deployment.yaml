@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: example-app
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: example-app
-        image: aimvector/python:1.0.1
+        image: aimvector/python:1.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
